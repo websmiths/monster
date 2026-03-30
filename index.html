@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>So You Don't Care About Monster Drinks?</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --green: #57ff2e;
+    --green-dim: #2a7a14;
+    --white: #f0f0f0;
+    --grey: #1a1a1a;
+    --danger: #ff3d3d;
+    --warning: #ffb800;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    background: radial-gradient(ellipse at top, #0d2a07 0%, var(--black) 65%);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 40px,
+      rgba(87,255,46,0.03) 40px,
+      rgba(87,255,46,0.03) 41px
+    );
+    pointer-events: none;
+  }
+
+  .can-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(87,255,46,0.4));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 12vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    color: var(--green);
+    text-shadow: 0 0 40px rgba(87,255,46,0.3);
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 span {
+    color: var(--white);
+    display: block;
+  }
+
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: #aaa;
+    max-width: 380px;
+    margin: 0 auto 2rem;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #555;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .scroll-hint::after {
+    content: '↓';
+    font-size: 1.4rem;
+    animation: bounce 1.5s ease-in-out infinite;
+    color: var(--green-dim);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* SECTIONS */
+  .section {
+    padding: 3rem 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    color: var(--green);
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+
+  .section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: 1px;
+    margin-bottom: 1.2rem;
+  }
+
+  .section p {
+    color: #bbb;
+    margin-bottom: 1rem;
+  }
+
+  /* STAT CARDS */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .stat-card {
+    background: var(--grey);
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 1.2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .stat-card:hover {
+    border-color: var(--green-dim);
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--green);
+    opacity: 0.4;
+  }
+
+  .stat-card .number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--green);
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(87,255,46,0.3);
+  }
+
+  .stat-card .number.danger { color: var(--danger); text-shadow: 0 0 20px rgba(255,61,61,0.3); }
+  .stat-card .number.warn { color: var(--warning); text-shadow: 0 0 20px rgba(255,184,0,0.3); }
+
+  .stat-card .label {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 0.3rem;
+    line-height: 1.3;
+  }
+
+  /* IMPACT BLOCKS */
+  .impact-block {
+    background: var(--grey);
+    border-left: 3px solid var(--green);
+    border-radius: 0 10px 10px 0;
+    padding: 1.2rem 1.4rem;
+    margin: 1rem 0;
+    position: relative;
+  }
+
+  .impact-block.danger { border-left-color: var(--danger); }
+  .impact-block.warn { border-left-color: var(--warning); }
+
+  .impact-block .impact-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .impact-block h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+  }
+
+  .impact-block p {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin: 0;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid #1e1e1e;
+    margin: 0;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: linear-gradient(135deg, #0d2a07, #0a0a0a);
+    border: 1px solid var(--green-dim);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+  }
+
+  .callout .callout-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--green);
+    margin-bottom: 0.5rem;
+  }
+
+  .callout p {
+    font-size: 0.9rem;
+    color: #999;
+    margin: 0;
+  }
+
+  /* SOURCE LIST */
+  .sources {
+    background: #111;
+    padding: 2rem 1.5rem 3rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .sources h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: #555;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .sources a {
+    display: block;
+    color: #444;
+    font-size: 0.8rem;
+    text-decoration: none;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #1a1a1a;
+    transition: color 0.2s;
+    word-break: break-all;
+  }
+
+  .sources a:hover {
+    color: var(--green-dim);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: #333;
+    font-size: 0.75rem;
+    background: var(--black);
+  }
+
+  /* ANIMATE IN */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="can-icon">🥤</div>
+  <h1>Cool.<span>Now read this.</span></h1>
+  <p class="subtitle">Don't care what's in Monster? That's fine. Here's what it's doing to you whether you care or not.</p>
+  <div class="scroll-hint">keep scrolling</div>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION 1: THE NUMBERS -->
+<section class="section reveal">
+  <p class="section-label">The Numbers</p>
+  <h2>One can. Multiple problems.</h2>
+  <p>A standard Monster has around 160mg of caffeine. The maximum a 15-year-old should have in a whole day, according to every major health body, is 100mg. You just drank 1.6 days' worth in one go.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="number">160mg</div>
+      <div class="label">Caffeine in one Monster (16oz)</div>
+    </div>
+    <div class="stat-card">
+      <div class="number danger">100mg</div>
+      <div class="label">Max safe daily limit for teens (AAP)</div>
+    </div>
+    <div class="stat-card">
+      <div class="number warn">27 tsp</div>
+      <div class="label">Sugar in some cans — more than most soft drinks</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">40%</div>
+      <div class="label">Of teens who reported a bad reaction after drinking one</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION 2: YOUR BODY -->
+<section class="section reveal">
+  <p class="section-label">Your Body</p>
+  <h2>What it's actually doing right now</h2>
+  <p>The energy feeling? That's your body in a mild stress response. Here's what's happening under the hood:</p>
+
+  <div class="impact-block danger">
+    <div class="impact-icon">❤️</div>
+    <h3>Heart rate &amp; blood pressure spike</h3>
+    <p>Energy drinks cause elevated blood pressure and abnormal electrical activity in your heart — for hours after you drink it. If you have any undiagnosed heart condition (you probably don't know if you do), this is how people end up in the ER.</p>
+  </div>
+
+  <div class="impact-block warn">
+    <div class="impact-icon">🩸</div>
+    <h3>Blood sugar rollercoaster</h3>
+    <p>The sugar causes a spike, your body overcorrects, you crash harder than before. That tired feeling you're using Monster to fix? It's partly Monster causing it.</p>
+  </div>
+
+  <div class="impact-block">
+    <div class="impact-icon">💧</div>
+    <h3>Dehydration</h3>
+    <p>Caffeine is a diuretic. You're not hydrating — you're the opposite. Especially bad if you're playing sport.</p>
+  </div>
+
+  <div class="impact-block danger">
+    <div class="impact-icon">⚡</div>
+    <h3>Serious stuff (rare but real)</h3>
+    <p>The medical literature documents kidney damage, seizures, cardiac arrest, and death — mostly at high doses or when combined with exercise, alcohol, or certain meds. Not scare tactics. Actual documented cases.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION 3: YOUR BRAIN -->
+<section class="section reveal">
+  <p class="section-label">Your Brain</p>
+  <h2>Your brain is literally still being built</h2>
+  <p>Your brain won't finish developing until you're around 25. That makes it more sensitive to this stuff than an adult's — not less.</p>
+
+  <div class="impact-block warn">
+    <div class="impact-icon">😤</div>
+    <h3>Anxiety &amp; mood swings</h3>
+    <p>Caffeine at these levels increases anxiety, irritability, and nervousness — especially if you're already stressed about school, sport, or life in general. You feel it as tension, not "caffeine".</p>
+  </div>
+
+  <div class="impact-block danger">
+    <div class="impact-icon">😴</div>
+    <h3>Sleep destruction</h3>
+    <p>Even one afternoon Monster messes with sleep quality. Bad sleep makes concentration, mood, and performance worse. So you reach for another Monster to compensate. That's a dependency loop, and it starts fast.</p>
+  </div>
+
+  <div class="impact-block">
+    <div class="impact-icon">🧠</div>
+    <h3>Aggression &amp; depression risk</h3>
+    <p>Studies link regular teen energy drink consumption with increased aggression and depression markers. The "I don't care" attitude? Caffeine dependency can actually make that worse, not better.</p>
+  </div>
+
+  <div class="callout">
+    <div class="callout-big">Withdrawal is real.</div>
+    <p>If you drink these regularly and stop, you'll get headaches, low mood, and fatigue — sometimes for days. That's your body telling you it's dependent. At 15.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION: TWO CANS -->
+<section class="section reveal">
+  <p class="section-label">If you're having more than one</p>
+  <h2>Two cans is a different conversation.</h2>
+  <p>One can already puts you 60% over the recommended daily caffeine limit for your age. Two puts you at 320mg — more than three times the limit, and into territory where adverse reactions stop being unlikely.</p>
+
+  <div class="impact-block danger">
+    <div class="impact-icon">🫀</div>
+    <h3>Cardiac territory</h3>
+    <p>Adverse reactions — racing heart, palpitations, chest tightness — typically start showing up around 200mg of caffeine. Two cans clears that easily. Studies document arrhythmias, atrial fibrillation, and cardiac arrest at these levels, particularly during or after physical activity.</p>
+  </div>
+
+  <div class="impact-block danger">
+    <div class="impact-icon">🧨</div>
+    <h3>Seizure risk goes up</h3>
+    <p>High-dose caffeine lowers the seizure threshold. That means if you have any underlying sensitivity — diagnosed or not — two cans in a day meaningfully increases the risk of a seizure. Documented in the medical literature, not just scare stories.</p>
+  </div>
+
+  <div class="impact-block warn">
+    <div class="impact-icon">😵</div>
+    <h3>The crash is worse, not better</h3>
+    <p>The second can doesn't extend the first one. Your body has already started adapting. What you get instead is a harder crash, worse sleep, and a stronger craving tomorrow. That's the tolerance loop — and it's how a casual habit becomes a daily dependency faster than you'd think.</p>
+  </div>
+
+  <div class="callout">
+    <div class="callout-big">54 teaspoons of sugar.</div>
+    <p>That's what two standard cans can contain. Your liver and kidneys are processing all of that. At 15, those organs are still maturing too.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SECTION 4: THE MARKETING THING -->
+<section class="section reveal">
+  <p class="section-label">Worth knowing</p>
+  <h2>You're the target. Not the customer.</h2>
+  <p>Monster sponsors extreme sports, gaming events, and influencers specifically to make the drink feel like a personality choice, not a product. That's hundreds of millions in marketing aimed directly at your age group.</p>
+  <p>The American Academy of Pediatrics says teens should avoid energy drinks entirely. Monster knows this and markets to teens anyway. Just something to think about when you crack the next can.</p>
+</section>
+
+<hr class="divider">
+
+<!-- SOURCES -->
+<section class="sources reveal">
+  <h3>Sources (actual ones)</h3>
+  <a href="https://www.uclahealth.org/news/article/teens-energy-drinks-side-effects" target="_blank">UCLA Health — Side effects of energy drinks in teens</a>
+  <a href="https://health.choc.org/energy-drink-consumption-in-adolescents/" target="_blank">Rady Children's Health — Should adolescents consume energy drinks?</a>
+  <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10535526/" target="_blank">PMC / NIH — The Dark Side of Energy Drinks (peer-reviewed review)</a>
+  <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6311602/" target="_blank">PMC / NIH — Risk of Energy Drink Consumption to Adolescent Health</a>
+  <a href="https://healthtalk.unchealthcare.org/the-scary-truth-about-energy-drinks-and-teens/" target="_blank">UNC Health — The Scary Truth About Energy Drinks and Teens</a>
+  <a href="https://nortonchildrens.com/news/side-effects-of-energy-drinks/" target="_blank">Norton Children's Hospital — Side effects of energy drinks in kids and teens</a>
+  <a href="https://www.hopkinsmedicine.org/health/wellness-and-prevention/energy-drinks-and-kids" target="_blank">Johns Hopkins Medicine — Energy Drinks and Kids</a>
+  <a href="https://www.health.harvard.edu/diet-and-nutrition/are-energy-drinks-bad-for-you" target="_blank">Harvard Health — Are energy drinks bad for you?</a>
+</section>
+
+<footer>
+  Not a lecture. Just facts. Do what you want with them.
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
