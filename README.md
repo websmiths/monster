@@ -6,11 +6,7 @@ Built with plain HTML, CSS, and a touch of vanilla JS. No dependencies, no build
 
 ## Hosting on GitHub Pages
 
-1. Create a new GitHub repo (can be private or public)
-2. Upload the contents of this folder
-3. Go to **Settings → Pages**
-4. Set source to **Deploy from a branch → main → / (root)**
-5. GitHub will give you a URL like `https://yourusername.github.io/monster-truth/`
+1. https://websmiths.github.io/monster/
 
 That's it. The site will be live within a minute or two.
 
